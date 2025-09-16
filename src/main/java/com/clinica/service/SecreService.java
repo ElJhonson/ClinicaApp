@@ -1,6 +1,6 @@
 package com.clinica.service;
 
-import com.clinica.model.Dto.PsicologoRequest;
+import com.clinica.dto.PsicologoRequest;
 import com.clinica.model.Psicologo;
 import com.clinica.model.Rol;
 import com.clinica.model.User;

@@ -1,4 +1,4 @@
-package com.clinica.model.Dto;
+package com.clinica.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

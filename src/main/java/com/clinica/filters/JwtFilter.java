@@ -55,7 +55,7 @@ public class JwtFilter extends OncePerRequestFilter {
         }
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            if (jwtService.validateToken(token)) {  // valida solo expiración y firma
+            if (jwtService.validateToken(token)) {
 
                 List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_" + rol));
 

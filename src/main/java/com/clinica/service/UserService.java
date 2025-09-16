@@ -33,15 +33,6 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public User registrar(User user){
-        user.setFullName("admin");
-        user.setEmail("admin@gmail.com");
-        user.setPassword("admin");
-        user.setRol(Rol.SECRETARIA);
-        user.setPassword(encoder.encode(user.getPassword()));
-        return userRepository.save(user);
-    }
-
     public Map<String, String> acceder(User user) {
         Authentication authentication =
                 authManager.authenticate(new UsernamePasswordAuthenticationToken

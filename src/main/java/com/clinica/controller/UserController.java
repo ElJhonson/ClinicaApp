@@ -18,11 +18,6 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping("/registrar")
-    public User registrarSecretaria(@RequestBody User user){
-        return userService.registrar(user);
-    }
-
     @PostMapping("/acceder")
     public Map<String, String> login(@RequestBody User user){
         return userService.acceder(user);
@@ -39,6 +34,4 @@ public class UserController {
                     .body(Map.of("error", e.getMessage()));
         }
     }
-
-
 }
