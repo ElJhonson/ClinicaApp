@@ -1,6 +1,7 @@
 package com.clinica.controller;
 
-import com.clinica.dto.PsicologoRequest;
+import com.clinica.dto.psicologo.PsicologoRequest;
+import com.clinica.dto.psicologo.PsicologoResponse;
 import com.clinica.model.Psicologo;
 import com.clinica.service.SecreService;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,7 @@ public class SecretariaController {
 
     @PreAuthorize("hasRole('SECRETARIA')")
     @PostMapping("/registrar-psicologo")
-    public ResponseEntity<Psicologo> registrarPsicologo(@RequestBody PsicologoRequest psicologoDto){
+    public ResponseEntity<PsicologoResponse> registrarPsicologo(@RequestBody PsicologoRequest psicologoDto){
         return ResponseEntity.ok(secreService.registrarPsicologo(psicologoDto));
     }
 }

@@ -1,6 +1,8 @@
 package com.clinica.service;
 
-import com.clinica.dto.PsicologoRequest;
+import com.clinica.dto.psicologo.PsicologoRequest;
+import com.clinica.dto.psicologo.PsicologoResponse;
+import com.clinica.mapper.PsicologoMapper;
 import com.clinica.model.Psicologo;
 import com.clinica.model.Rol;
 import com.clinica.model.User;
@@ -9,12 +11,16 @@ import com.clinica.repository.UserRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import static com.clinica.mapper.PsicologoMapper.toEntity;
+import static com.clinica.mapper.PsicologoMapper.toResponse;
+
 @Service
 public class SecreService {
 
     private final UserRepository userRepo;
     private final PsicologoRepository psicologoRepo;
     private final BCryptPasswordEncoder encoder;
+    private static PsicologoMapper psicologoMapper;
 
     public SecreService(UserRepository userRepo,
                         PsicologoRepository psicologoRepo) {
@@ -23,7 +29,7 @@ public class SecreService {
         this.encoder = new BCryptPasswordEncoder(12);
     }
 
-    public Psicologo registrarPsicologo(PsicologoRequest psicologoDto) {
+    public PsicologoResponse registrarPsicologo(PsicologoRequest psicologoDto) {
         User user = new User();
         user.setEmail(psicologoDto.getEmail());
         user.setPassword(encoder.encode(psicologoDto.getPassword()));
@@ -31,10 +37,10 @@ public class SecreService {
         user.setRol(Rol.PSICOLOGO);
         userRepo.save(user);
 
-        Psicologo psicologo = new Psicologo();
-        psicologo.setTelefono(psicologoDto.getTelefono());
-        psicologo.setUser(user);
-        return psicologoRepo.save(psicologo);
+        Psicologo psicologo = toEntity(psicologoDto, user);
+        psicologoRepo.save(psicologo);
+
+        return toResponse(psicologo);
     }
 
 }
