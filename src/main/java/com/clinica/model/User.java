@@ -6,20 +6,19 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
-@Table(name = "secretarias")
-public class Secretaria {
+@Table(name = "users")
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String telefono;
-    private String turno;
-//    private String fechaContratacion;
-
-    @OneToOne
-    private User user;
-
+    private String fullName;
+    @Column(unique = true)
+    private String email;
+    private String password;
+    @Enumerated(EnumType.STRING)
+    private Rol rol;
 }

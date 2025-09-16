@@ -1,11 +1,11 @@
 package com.clinica.service;
 
+import com.clinica.model.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
@@ -19,27 +19,32 @@ public class JWTService {
 
     @Value("${jwt.secret}")
     private String secretKey;
-
-    public String generateToken(String correo) {
+    
+    public String generateToken(User user) {
         Map<String, Object> claims = new HashMap<>();
+        claims.put("rol", user.getRol().name());
         return Jwts.builder()
-                .claims()
-                .add(claims)
-                .subject(correo)
-                .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis()+1000* 60 * 30))
-                .and()
+                .setClaims(claims)
+                .setSubject(user.getEmail())
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 30))
                 .signWith(getKey())
                 .compact();
     }
 
+
     public String generateRefreshToken(String correo) {
         return Jwts.builder()
-                .subject(correo)
-                .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + 1000L * 60 * 60 * 24 * 15)) // 15 días
+                .setSubject(correo)
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + 1000L * 60 * 60 * 24 * 15))
                 .signWith(getKey())
                 .compact();
+    }
+
+
+    public String extractRol(String token) {
+        return extractClaim(token, claims -> claims.get("rol", String.class));
     }
 
 
@@ -52,25 +57,23 @@ public class JWTService {
         return extractClaim(token, Claims::getSubject);
     }
 
-    private <T> T extractClaim(String token, Function<Claims, T> claimResolver) {
-        final Claims claims = extractAllClaims(token);
-        return claimResolver.apply(claims);
+
+    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
+        return claimsResolver.apply(extractAllClaims(token));
     }
 
     private Claims extractAllClaims(String token) {
-        return Jwts.parser()
-                .verifyWith(getKey())
+        return Jwts.parserBuilder()
+                .setSigningKey(getKey())
                 .build()
-                .parseSignedClaims(token).getPayload();
+                .parseClaimsJws(token)
+                .getBody();
     }
 
-
-
-    public boolean validateToken(String token, UserDetails userDetails) {
-        final String correo = extractCorreo(token);
-        return (correo.equals(userDetails.getUsername()) &&
-                !isTokenExpired(token));
+    public boolean validateToken(String token) {
+        return !isTokenExpired(token);
     }
+
 
     private boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());

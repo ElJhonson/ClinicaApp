@@ -1,9 +1,7 @@
 package com.clinica.controller;
 
-import com.clinica.model.Secretaria;
-import com.clinica.model.SecretariaPrincipal;
-import com.clinica.service.JWTService;
-import com.clinica.service.SecreService;
+import com.clinica.model.User;
+import com.clinica.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,29 +10,29 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
-public class SecreController {
+public class UserController {
 
-    private final SecreService secreService;
+    private final UserService userService;
 
-    public SecreController(SecreService secreService) {
-        this.secreService = secreService;
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
     @PostMapping("/registrar")
-    public Secretaria registrarSecretaria(@RequestBody Secretaria secretaria){
-        return secreService.registrar(secretaria);
+    public User registrarSecretaria(@RequestBody User user){
+        return userService.registrar(user);
     }
 
     @PostMapping("/acceder")
-    public Map<String, String> login(@RequestBody Secretaria secretaria){
-        return secreService.acceder(secretaria);
+    public Map<String, String> login(@RequestBody User user){
+        return userService.acceder(user);
     }
 
     @PostMapping("/refresh")
     public ResponseEntity<?> refresh(@RequestBody Map<String, String> request) {
         String refreshToken = request.get("refreshToken");
         try {
-            String newAccessToken = secreService.refreshAccessToken(refreshToken);
+            String newAccessToken = userService.refreshAccessToken(refreshToken);
             return ResponseEntity.ok(Map.of("accessToken", newAccessToken));
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)

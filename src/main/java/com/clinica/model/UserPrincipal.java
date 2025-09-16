@@ -7,42 +7,46 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.Collections;
 
-public class SecretariaPrincipal implements UserDetails {
+public class UserPrincipal implements UserDetails {
 
-    private final Secretaria secretaria;
+    private final User user;
 
 
-    public SecretariaPrincipal(Secretaria secretaria) {
-        this.secretaria = secretaria;
+    public UserPrincipal(User user) {
+        this.user = user;
     }
 
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton(new SimpleGrantedAuthority("USER"));
+        System.out.println("ROL CARGADO DEL USER: " + user.getRol());
+        return Collections.singleton(new SimpleGrantedAuthority("ROLE_" + user.getRol().name()));
     }
 
     @Override
     public String getPassword() {
-        return secretaria.getContrasena();
+        return user.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return secretaria.getCorreo();
+        return user.getEmail();
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return true;    }
+        return true;
+    }
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;    }
+        return true;
+    }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return true;    }
+        return true;
+    }
 
     @Override
     public boolean isEnabled() {
