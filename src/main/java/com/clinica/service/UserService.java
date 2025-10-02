@@ -39,8 +39,10 @@ public class UserService {
                         (user.getEmail(), user.getPassword()));
 
         if(authentication.isAuthenticated()){
-            String accessToken = jwtService.generateToken(user);
-            String refreshToken = jwtService.generateRefreshToken(user.getEmail());
+            User userBD = userRepository.findByEmail(user.getEmail())
+                    .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+            String accessToken = jwtService.generateToken(userBD);
+            String refreshToken = jwtService.generateRefreshToken(userBD.getEmail());
             return Map.of("accessToken", accessToken,
                     "refreshToken", refreshToken);
         }

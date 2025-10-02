@@ -1,47 +1,49 @@
 package com.clinica.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Time;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-//@Data
-//@NoArgsConstructor
-//@AllArgsConstructor
-//@Entity
-//@Table(name = "citas")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@Table(name = "citas")
 public class Cita {
 
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    @Column(name = "idcitas")
-//    private int idCitas;
-//    private Date fecha;
-//    private Time hora;
-//    private String consultorio;
-//    private String tipo;
-//    private String observaciones;
-//    @Column(name = "estadoc")
-//    private String estado;
-//
-//    @ManyToOne
-//    @JoinColumn(name = "especialistas_idespecialistas", referencedColumnName = "idespecialistas")
-//    private Psicologo especialista;
-//
-//    @ManyToOne
-//    @JoinColumn(name = "pacientes_clave", referencedColumnName = "clave")
-//    private Paciente paciente;
-//
-//    @OneToMany
-//    private List<Pago> pagos;
+    @Id
+    @Column(name = "idcitas")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int idCitas;
+    private LocalDate fecha;
+    private Time hora;
+    private String consultorio;
+    private String tipo;
+    private String observaciones;
+    @Enumerated(EnumType.STRING)
+    private Estado estado;
 
-//    @ManyToOne
-//    @JoinColumn(name = "secretarias_idsecretaria", referencedColumnName = "idSecretaria")
-//    private Secretaria secretaria;
+    @ManyToOne
+    @JoinColumn(name = "psicologo_idpsicologo")
+    private Psicologo psicologo;
 
+    @ManyToOne
+    @JoinColumn(name = "pacientes_clave", referencedColumnName = "clave")
+    private Paciente paciente;
+
+    @OneToMany(mappedBy = "cita", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Pago> pagos = new ArrayList<>();;
+
+    @ManyToOne
+    @JoinColumn(name = "secretarias_idsecretaria", referencedColumnName = "id")
+    private Secretaria secretaria;
 
 }

@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -13,17 +15,16 @@ import lombok.NoArgsConstructor;
 public class Psicologo {
 
     @Id
-    @Column(name = "idpsicologos")
+    @Column(name = "idpsicologo")
     private Long idPsicologo;
-    @Column(name = "telefonoe")
     private String telefono;
     private String servicios;
+    private double comision;
+    @Enumerated(EnumType.STRING)
+    private Estado estado;
 
-    @Column(name = "estadoe")
-    private String estado;
-
-//    @OneToMany(mappedBy = "especialista")
-//    private List<Cita> citas;
+    @OneToMany(mappedBy = "psicologo")
+    private List<Cita> citas;
 
     @OneToOne
     @MapsId

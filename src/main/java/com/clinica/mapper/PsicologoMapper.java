@@ -2,6 +2,7 @@ package com.clinica.mapper;
 
 import com.clinica.dto.psicologo.PsicologoRequest;
 import com.clinica.dto.psicologo.PsicologoResponse;
+import com.clinica.model.Estado;
 import com.clinica.model.Psicologo;
 import com.clinica.model.User;
 
@@ -12,7 +13,8 @@ public class PsicologoMapper {
         psicologo.setTelefono(psicologoRequest.getTelefono());
         psicologo.setTelefono(psicologoRequest.getTelefono());
         psicologo.setServicios(psicologo.getServicios());
-        psicologo.setEstado("Activo");
+        psicologo.setComision(psicologoRequest.getComision());
+        psicologo.setEstado(Estado.ACTIVO);
         psicologo.setUser(user);
         return psicologo;
     }
@@ -24,6 +26,7 @@ public class PsicologoMapper {
         response.setEmail(entity.getUser().getEmail());
         response.setTelefono(entity.getTelefono());
         response.setServicios(entity.getServicios());
+        response.setComision(entity.getComision());
         response.setEstado(entity.getEstado());
 
         return response;

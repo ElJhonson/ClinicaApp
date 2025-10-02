@@ -1,5 +1,6 @@
 package com.clinica.dto.psicologo;
 
+import com.clinica.model.Estado;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,5 +14,6 @@ public class PsicologoResponse {
     private String email;
     private String telefono;
     private String servicios;
-    private String estado;
+    private double comision;
+    private Estado estado;
 }
