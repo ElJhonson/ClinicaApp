@@ -17,15 +17,18 @@ public class Pago {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idPagos;
     private LocalDateTime fecha;
-    private int cantidad;
+    private double montoTotal;
+    private double comisionClinica;
     private int penalizacion;
     @Column(name = "motivot")
     private String motivo;
     @Column(name = "tipopa")
-    private String tipo;
+    @Enumerated(EnumType.STRING)
+    private Tipo tipo;
     @Column(name = "observacionespa")
     private String observaciones;
-    private int comision;
+
+    private boolean aplicado = false;
 
     @ManyToOne
     @JoinColumn(name = "citas_idcitas", referencedColumnName = "idcitas")

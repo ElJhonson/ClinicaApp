@@ -1,6 +1,6 @@
 package com.clinica.service;
 
-import com.clinica.model.Rol;
+import com.clinica.exceptions.UserNotFoundException;
 import com.clinica.model.User;
 import com.clinica.repository.UserRepository;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -40,7 +40,7 @@ public class UserService {
 
         if(authentication.isAuthenticated()){
             User userBD = userRepository.findByEmail(user.getEmail())
-                    .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+                    .orElseThrow(() -> new UserNotFoundException("Usuario no encontrado"));
             String accessToken = jwtService.generateToken(userBD);
             String refreshToken = jwtService.generateRefreshToken(userBD.getEmail());
             return Map.of("accessToken", accessToken,

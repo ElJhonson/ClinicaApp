@@ -3,7 +3,8 @@ package com.clinica.controller;
 import com.clinica.dto.cita.CitaRequestDTO;
 import com.clinica.dto.cita.CitaResponseDTO;
 import com.clinica.model.Estado;
-import com.clinica.service.SecreService;
+import com.clinica.service.CitaService;
+import com.clinica.service.FiltrosService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -16,51 +17,52 @@ import java.util.List;
 @PreAuthorize("hasRole('SECRETARIA')")
 public class CitasController {
 
-    private final SecreService secreService;
+    private final CitaService citaService;
+    private final FiltrosService filtrosService;
 
-    public CitasController(SecreService secreService) {
-        this.secreService = secreService;
+    public CitasController(CitaService citaService, FiltrosService filtrosService) {
+        this.citaService = citaService;
+        this.filtrosService = filtrosService;
     }
-
 
     @PostMapping("/registrar")
     public ResponseEntity<CitaResponseDTO> registrarCita(@RequestBody CitaRequestDTO dto) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(secreService.registrarCita(dto));
+        return ResponseEntity.status(HttpStatus.CREATED).body(citaService.registrarCita(dto));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<CitaResponseDTO> actualizarCita(
             @PathVariable int id,
             @RequestBody CitaRequestDTO dto) {
-        return ResponseEntity.ok(secreService.actCita(id, dto));
+        return ResponseEntity.ok(citaService.actCita(id, dto));
     }
 
     @GetMapping
     public ResponseEntity<List<CitaResponseDTO>> obtenerCitas() {
-        return ResponseEntity.ok(secreService.obtenerCitas());
+        return ResponseEntity.ok(citaService.obtenerCitas());
     }
 
     @PostMapping("/estado")
     public ResponseEntity<CitaResponseDTO> cambiarEstadoCita(
             @RequestParam int id,
             @RequestParam Estado estado) {
-        return ResponseEntity.ok(secreService.cambiarEstadoCita(id, estado));
+        return ResponseEntity.ok(citaService.cambiarEstadoCita(id, estado));
     }
 
     // === Filtros ===
     @GetMapping("/dia")
     public List<CitaResponseDTO> obtenerCitasPorDia(@RequestParam String fecha) {
-        return secreService.obtenerCitasPorDia(fecha);
+        return filtrosService.obtenerCitasPorDia(fecha);
     }
 
     @GetMapping("/semana")
     public List<CitaResponseDTO> obtenerCitasPorSemana(@RequestParam String inicio, @RequestParam String fin) {
-        return secreService.obtenerCitasPorSemana(inicio, fin);
+        return filtrosService.obtenerCitasPorSemana(inicio, fin);
     }
 
     @GetMapping("/mes")
     public List<CitaResponseDTO> obtenerCitasPorMes(@RequestParam int anio, @RequestParam int mes) {
-        return secreService.obtenerCitasPorMes(anio, mes);
+        return filtrosService.obtenerCitasPorMes(anio, mes);
     }
 
 }
