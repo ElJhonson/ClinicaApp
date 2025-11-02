@@ -1,6 +1,6 @@
 package com.clinica.model;
 
-public enum Tipo {
-    NORMAL,
+public enum TipoPago {
+    PAGO_NORMAL,
     PENALIZACION
 }

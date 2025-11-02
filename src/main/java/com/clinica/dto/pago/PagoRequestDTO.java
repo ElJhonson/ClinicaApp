@@ -1,6 +1,6 @@
 package com.clinica.dto.pago;
 
-import com.clinica.model.Tipo;
+import com.clinica.model.TipoPago;
 import lombok.Data;
 
 @Data
@@ -9,6 +9,6 @@ public class PagoRequestDTO {
     private int penalizacion;
     private String motivo;
     private String observaciones;
-    private Tipo tipo;
+    private TipoPago tipoPago;
     private Integer citaId;
 }

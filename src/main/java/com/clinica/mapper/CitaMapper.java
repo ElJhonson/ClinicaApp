@@ -49,6 +49,14 @@ public class CitaMapper {
             dto.setSecretariaNombre(cita.getSecretaria().getUser().getFullName());
         }
 
+        if (cita.getPagos() != null && !cita.getPagos().isEmpty()) {
+            dto.setPagos(
+                    cita.getPagos().stream()
+                            .map(PagoMapper::toResponse)
+                            .toList()
+            );
+        }
+
         return dto;
     }
 

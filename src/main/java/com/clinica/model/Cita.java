@@ -17,34 +17,36 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-    @Table(name = "citas")
-    public class Cita {
+@Table(name = "citas")
+public class Cita {
 
-        @Id
-        @Column(name = "idcitas")
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private int idCitas;
-        private LocalDate fecha;
-        private LocalTime hora;
-        private String consultorio;
-        private String tipo;
-        private String observaciones;
-        @Enumerated(EnumType.STRING)
-        private Estado estado = Estado.ACTIVO;
+    @Id
+    @Column(name = "idcitas")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int idCitas;
+    private LocalDate fecha;
+    private LocalTime hora;
+    private String consultorio;
+    @Enumerated(EnumType.STRING)
+    private TipoCita tipo;
+    private String observaciones;
+    @Enumerated(EnumType.STRING)
+    private Estado estado = Estado.ACTIVO;
 
-        @ManyToOne
-        @JoinColumn(name = "psicologo_idpsicologo")
-        private Psicologo psicologo;
+    @ManyToOne
+    @JoinColumn(name = "psicologo_idpsicologo")
+    private Psicologo psicologo;
 
-        @ManyToOne
-        @JoinColumn(name = "pacientes_clave", referencedColumnName = "clave")
-        private Paciente paciente;
+    @ManyToOne
+    @JoinColumn(name = "pacientes_clave", referencedColumnName = "clave")
+    private Paciente paciente;
 
-        @OneToMany(mappedBy = "cita", cascade = CascadeType.ALL, orphanRemoval = true)
-        private List<Pago> pagos = new ArrayList<>();;
+    @OneToMany(mappedBy = "cita", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Pago> pagos = new ArrayList<>();
+    ;
 
-        @ManyToOne
-        @JoinColumn(name = "secretarias_idsecretaria", referencedColumnName = "id")
-        private Secretaria secretaria;
+    @ManyToOne
+    @JoinColumn(name = "secretarias_idsecretaria", referencedColumnName = "id")
+    private Secretaria secretaria;
 
-    }
+}

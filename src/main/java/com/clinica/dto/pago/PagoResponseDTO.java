@@ -1,6 +1,6 @@
 package com.clinica.dto.pago;
 
-import com.clinica.model.Tipo;
+import com.clinica.model.TipoPago;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -14,7 +14,7 @@ public class PagoResponseDTO {
     private double comisionClinica;
     private int penalizacion;
     private String motivo;
-    private Tipo tipo;
+    private TipoPago tipoPago;
     private String observaciones;
     private boolean aplicado;
     private Integer citaId;

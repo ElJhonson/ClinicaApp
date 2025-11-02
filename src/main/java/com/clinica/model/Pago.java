@@ -24,7 +24,7 @@ public class Pago {
     private String motivo;
     @Column(name = "tipopa")
     @Enumerated(EnumType.STRING)
-    private Tipo tipo;
+    private TipoPago tipoPago;
     @Column(name = "observacionespa")
     private String observaciones;
 

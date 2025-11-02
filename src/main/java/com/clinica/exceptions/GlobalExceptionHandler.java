@@ -48,6 +48,12 @@ public class GlobalExceptionHandler {
 
     }
 
+    @ExceptionHandler(EstadoCitaException.class)
+    public ResponseEntity<Map<String, Object>> EstadoCitaChanged(EstadoCitaException ex) {
+        return buildResponse(HttpStatus.CONFLICT, ex.getMessage());
+
+    }
+
     private ResponseEntity<Map<String, Object>> buildResponse(HttpStatus status, String message) {
         Map<String, Object> body = new HashMap<>();
         body.put("timestamp", LocalDateTime.now());
