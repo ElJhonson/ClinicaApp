@@ -2,6 +2,7 @@ package com.clinica.controller;
 
 import com.clinica.dto.cita.CitaRequestDTO;
 import com.clinica.dto.cita.CitaResponseDTO;
+import com.clinica.model.Cita;
 import com.clinica.model.Estado;
 import com.clinica.service.CitaService;
 import com.clinica.service.FiltrosService;
@@ -32,6 +33,12 @@ public class CitaController {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(citaService.registrarCita(dto));
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<CitaResponseDTO> obtenerCitaPorId(@PathVariable int id) {
+        return ResponseEntity.ok(citaService.findByIdWithPagos(id));
+    }
+
 
     // === Actualizar cita existente ===
     @PutMapping("/{id}")

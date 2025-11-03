@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface PagoRepository extends JpaRepository<Pago, Integer> {
@@ -19,4 +20,9 @@ public interface PagoRepository extends JpaRepository<Pago, Integer> {
             "ORDER BY p.fecha ASC")
     Optional<Pago> findFirstPenalizacionNoAplicada(@Param("pacienteClave") String pacienteClave,
                                                    @Param("tipo") TipoPago tipo);
+
+    List<Pago> findByCita(Cita cita);
+
+
+
 }

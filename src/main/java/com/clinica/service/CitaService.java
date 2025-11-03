@@ -60,7 +60,10 @@ public class CitaService {
         }
 
         Cita citaGuardada = citaRepository.save(cita);
+// Obtener pagos existentes, si los hubiera
+        citaGuardada.setPagos(pagoRepository.findByCita(citaGuardada));
         return CitaMapper.toResponse(citaGuardada);
+
     }
 
     public List<CitaResponseDTO> obtenerCitas() {
@@ -93,11 +96,14 @@ public class CitaService {
         cita.setPaciente(paciente);
 
         citaRepository.save(cita);
+        citaRepository.save(cita);
+        cita.setPagos(pagoRepository.findByCita(cita));
         return toResponse(cita);
+
     }
 
     public CitaResponseDTO cambiarEstadoCita(int citaId, Estado nuevoEstado) {
-        Cita cita = citaRepository.findById(citaId)
+        Cita cita = citaRepository.findByIdWithPagos(citaId)
                 .orElseThrow(() -> new CitaNotFoundException("Cita no encontrada"));
 
         // 🚫 Si ya fue atendida o cancelada, no se puede cambiar nuevamente
@@ -154,6 +160,7 @@ public class CitaService {
 
             pagoRepository.save(pago);
         }
+        cita.setPagos(pagoRepository.findByCita(cita));
 
         return CitaMapper.toResponse(cita);
     }
@@ -170,4 +177,10 @@ public class CitaService {
     }
 
 
+    public CitaResponseDTO findByIdWithPagos(int id) {
+        Cita cita = citaRepository.findByIdWithPagos(id)
+                .orElseThrow(() -> new CitaNotFoundException("Cita no enconntrada"));
+
+        return toResponse(cita);
+    }
 }
