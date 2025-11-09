@@ -18,4 +18,10 @@ public class PagoResponseDTO {
     private String observaciones;
     private boolean aplicado;
     private Integer citaId;
+
+    private String nombrePaciente;
+    private String nombrePsicologo;
+    private String fechaCita;
+    private String horaCita;
+
 }

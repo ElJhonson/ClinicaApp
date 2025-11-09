@@ -44,13 +44,7 @@ public class CitaMapper {
 
         if (cita.getPagos() != null) {
             List<PagoResponseDTO> pagosOrdenados = cita.getPagos().stream()
-                    .sorted((p1, p2) -> {
-                        // Primero las penalizaciones
-                        if (p1.getTipoPago() == com.clinica.model.TipoPago.PENALIZACION && p2.getTipoPago() != com.clinica.model.TipoPago.PENALIZACION) return -1;
-                        if (p1.getTipoPago() != com.clinica.model.TipoPago.PENALIZACION && p2.getTipoPago() == com.clinica.model.TipoPago.PENALIZACION) return 1;
-                        // Si ambos son del mismo tipo, ordena por fecha
-                        return p1.getFecha().compareTo(p2.getFecha());
-                    })
+                    .sorted((p1, p2) -> p1.getFecha().compareTo(p2.getFecha()))
                     .map(CitaMapper::toPagoResponse)
                     .collect(Collectors.toList());
 

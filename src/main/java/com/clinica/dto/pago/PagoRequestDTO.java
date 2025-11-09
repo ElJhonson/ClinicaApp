@@ -6,6 +6,7 @@ import lombok.Data;
 @Data
 public class PagoRequestDTO {
     private double montoTotal;
+    private int comisionClinica;
     private int penalizacion;
     private String motivo;
     private String observaciones;

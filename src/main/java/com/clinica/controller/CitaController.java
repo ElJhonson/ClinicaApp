@@ -34,13 +34,6 @@ public class CitaController {
                 .body(citaService.registrarCita(dto));
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<CitaResponseDTO> obtenerCitaPorId(@PathVariable int id) {
-        return ResponseEntity.ok(citaService.findByIdWithPagos(id));
-    }
-
-
-    // === Actualizar cita existente ===
     @PutMapping("/{id}")
     public ResponseEntity<CitaResponseDTO> actualizarCita(
             @PathVariable int id,
@@ -54,31 +47,13 @@ public class CitaController {
         return ResponseEntity.ok(citaService.obtenerCitas());
     }
 
-    // === Cambiar estado de cita (CANCELADA, ATENDIDA, NO_ASISTIO...) ===
     @PutMapping("/{id}/estado")
-    public ResponseEntity<CitaResponseDTO> cambiarEstadoCita(
+    public ResponseEntity<CitaResponseDTO> cambiarEstado(
             @PathVariable int id,
             @RequestParam Estado estado) {
-        return ResponseEntity.ok(citaService.cambiarEstadoCita(id, estado));
+        CitaResponseDTO dto = citaService.cambiarEstadoCita(id, estado);
+        return ResponseEntity.ok(dto);
     }
 
-    // === Filtros ===
-    @GetMapping("/dia")
-    public List<CitaResponseDTO> obtenerCitasPorDia(@RequestParam String fecha) {
-        return filtrosService.obtenerCitasPorDia(fecha);
-    }
 
-    @GetMapping("/semana")
-    public List<CitaResponseDTO> obtenerCitasPorSemana(
-            @RequestParam String inicio,
-            @RequestParam String fin) {
-        return filtrosService.obtenerCitasPorSemana(inicio, fin);
-    }
-
-    @GetMapping("/mes")
-    public List<CitaResponseDTO> obtenerCitasPorMes(
-            @RequestParam int anio,
-            @RequestParam int mes) {
-        return filtrosService.obtenerCitasPorMes(anio, mes);
-    }
 }

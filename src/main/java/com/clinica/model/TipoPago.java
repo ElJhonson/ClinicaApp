@@ -1,6 +1,8 @@
 package com.clinica.model;
 
 public enum TipoPago {
-    PAGO_NORMAL,
-    PENALIZACION
+    EFECTIVO,
+    TRANSFERENCIA,
+    TARJETA,
+    NO_DETERMINADO
 }
